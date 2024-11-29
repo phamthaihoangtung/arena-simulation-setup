@@ -10,12 +10,19 @@ setup(
     version='1.0.0',
     packages=[],  # No Python modules
     data_files=[
-        ('share/ament_index/resource_index/packages', ['resource/' + package_name]),
+        ('share/ament_index/resource_index/packages',
+         ['resource/' + package_name]),
         ('share/' + package_name, ['package.xml']),
-        # Will recursively track all .yaml files in the entities/robots directory and its subdirectories.
+        # Will recursively track all .yaml files in the entities/robots
+        # directory and its subdirectories.
         *[
-            (os.path.join('share', package_name, os.path.dirname(f)), [f])
-            for f in glob('entities/robots/**/*.yaml', recursive=True)
+            (
+                os.path.join('share', package_name, base),
+                [os.path.join(base, file)]
+            )
+            for dir in ['configs', 'entities', 'launch', 'resource', 'worlds']
+            for base, dirs, files in os.walk(dir)
+            for file in files
         ]
     ],
     install_requires=['setuptools'],
