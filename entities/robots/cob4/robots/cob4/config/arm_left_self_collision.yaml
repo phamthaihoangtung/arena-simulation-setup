@@ -1,18 +1,16 @@
-/**:
-  ros__parameters:
-    self_collision_map:
-      base_link:
-      - arm_left_5_link
-      - arm_left_6_link
-      - arm_left_7_link
-      head_3_link:
-      - arm_left_3_link
-      - arm_left_4_link
-      - arm_left_5_link
-      - arm_left_6_link
-      - arm_left_7_link
-      torso_3_link:
-      - arm_left_4_link
-      - arm_left_5_link
-      - arm_left_6_link
-      - arm_left_7_link
+self_collision_map:
+  base_link:
+  - arm_left_5_link
+  - arm_left_6_link
+  - arm_left_7_link
+  head_3_link:
+  - arm_left_3_link
+  - arm_left_4_link
+  - arm_left_5_link
+  - arm_left_6_link
+  - arm_left_7_link
+  torso_3_link:
+  - arm_left_4_link
+  - arm_left_5_link
+  - arm_left_6_link
+  - arm_left_7_link

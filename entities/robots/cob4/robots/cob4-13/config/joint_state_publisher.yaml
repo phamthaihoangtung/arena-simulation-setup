@@ -1,7 +1,5 @@
-/**:
-  ros__parameters:
-    rate: 100
-    source_list:
-    - /base/joint_states
-    - /torso/joint_states
-    - /sensorring/joint_states
+rate: 100
+source_list:
+- /base/joint_states
+- /torso/joint_states
+- /sensorring/joint_states

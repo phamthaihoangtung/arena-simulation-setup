@@ -1,6 +1,4 @@
-/**:
-  ros__parameters:
-    epsilon: 0.01
-    footprint_source: /local_costmap_node/costmap
-    frames_to_check: base_laser_front_link base_laser_left_link base_laser_right_link
-    robot_base_frame: base_link
+epsilon: 0.01
+footprint_source: /local_costmap_node/costmap
+frames_to_check: base_laser_front_link base_laser_left_link base_laser_right_link
+robot_base_frame: base_link

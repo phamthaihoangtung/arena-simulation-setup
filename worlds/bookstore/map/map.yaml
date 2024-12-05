@@ -1,12 +1,10 @@
-/**:
-  ros__parameters:
-    free_thresh: 0.196
-    image: map.pgm
-    negate: 0
-    occupied_thresh: 0.65
-    origin:
-    - -15.0
-    - -15.0
-    - 0.0
-    resolution: 0.1
-    type: indoor
+free_thresh: 0.196
+image: map.pgm
+negate: 0
+occupied_thresh: 0.65
+origin:
+- -15.0
+- -15.0
+- 0.0
+resolution: 0.1
+type: indoor

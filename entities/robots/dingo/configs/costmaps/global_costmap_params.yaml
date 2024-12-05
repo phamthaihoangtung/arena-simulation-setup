@@ -1,6 +1,4 @@
-/**:
-  ros__parameters:
-    publish_frequency: 5.0
-    static_map: true
-    transform_tolerance: 0.25
-    update_frequency: 5.0
+publish_frequency: 5.0
+static_map: true
+transform_tolerance: 0.25
+update_frequency: 5.0

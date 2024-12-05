@@ -1,3 +1,1 @@
-/**:
-  ros__parameters:
-    robot_frame: $(arg frame)base_footprint
+robot_frame: $(arg frame)base_footprint

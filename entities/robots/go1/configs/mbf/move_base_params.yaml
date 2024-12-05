@@ -1,3 +1,1 @@
-/**:
-  ros__parameters:
-    robot_frame: $(arg frame)base
+robot_frame: $(arg frame)base

@@ -1,7 +1,5 @@
-/**:
-  ros__parameters:
-    enable_light: false
-    enable_sound: false
-    threshold_critical: 5
-    threshold_error: 10
-    threshold_warning: 20
+enable_light: false
+enable_sound: false
+threshold_critical: 5
+threshold_error: 10
+threshold_warning: 20

@@ -1,4 +1,2 @@
-/**:
-  ros__parameters:
-    error_offset: 25000
-    offset: 5000
+error_offset: 25000
+offset: 5000

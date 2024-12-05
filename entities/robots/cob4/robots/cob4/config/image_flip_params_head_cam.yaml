@@ -1,8 +1,6 @@
-/**:
-  ros__parameters:
-    display_warnings: true
-    flip_color_image: true
-    flip_pointcloud: false
-    reference_frame: base_link
-    rotation_angle: 0
-    rotation_mode: 1
+display_warnings: true
+flip_color_image: true
+flip_pointcloud: false
+reference_frame: base_link
+rotation_angle: 0
+rotation_mode: 1

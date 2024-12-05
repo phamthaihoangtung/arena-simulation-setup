@@ -1,4 +1,2 @@
-/**:
-  ros__parameters:
-    deadzone: 0.12
-    dev: /dev/joypad
+deadzone: 0.12
+dev: /dev/joypad
