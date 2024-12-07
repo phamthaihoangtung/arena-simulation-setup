@@ -286,9 +286,7 @@
   </ros2_control>
 
   <!-- Bring in simulation data for Gazebo. -->
-  <xacro:if value="$(arg is_sim)">
-    <xacro:include filename="$(find jackal_description)/urdf/jackal.gazebo" />
-  </xacro:if>
+  <xacro:include filename="$(find simulation-setup)/entities/robots/jackal/urdf/jackal.gazebo" />
 
   <!-- Optional standard accessories, including their simulation data. The rendering
        of these into the final description is controlled by optenv variables, which
