@@ -20,7 +20,7 @@ setup(
                 os.path.join('share', package_name, base),
                 [os.path.join(base, file)]
             )
-            for dir in ['configs', 'entities', 'launch', 'resource', 'worlds']
+            for dir in ['configs', 'entities', 'launch', 'resource', 'worlds', 'gazebo_models']
             for base, dirs, files in os.walk(dir)
             for file in files
         ]
