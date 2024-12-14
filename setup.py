@@ -1,14 +1,17 @@
 from glob import glob
 import os
 
-from setuptools import setup
+from setuptools import setup, find_packages
 
 package_name = 'simulation-setup'
 
 setup(
     name=package_name,
     version='1.0.0',
-    packages=[],  # No Python modules
+    packages=find_packages(
+        where='.',
+        include=[f'{package_name}*']
+    ),
     data_files=[
         ('share/ament_index/resource_index/packages',
          ['resource/' + package_name]),
@@ -20,7 +23,7 @@ setup(
                 os.path.join('share', package_name, base),
                 [os.path.join(base, file)]
             )
-            for dir in ['configs', 'entities', 'launch', 'resource', 'worlds', 'gazebo_models']
+            for dir in ['configs', 'entities', 'launch', 'resource', 'worlds', 'gazebo_models', 'common']
             for base, dirs, files in os.walk(dir)
             for file in files
         ]
