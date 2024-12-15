@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.5)
-project(simulation-setup)
+project(arena_simulation_setup)
 
 # Default to C++17
 if(NOT CMAKE_CXX_STANDARD)
