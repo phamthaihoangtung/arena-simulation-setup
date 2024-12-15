@@ -3,7 +3,7 @@ import os
 
 from setuptools import setup, find_packages
 
-package_name = 'simulation-setup'
+package_name = 'arena_simulation_setup'
 
 setup(
     name=package_name,
@@ -32,7 +32,7 @@ setup(
     zip_safe=True,
     maintainer='NamTruongTran',
     maintainer_email='trannamtruong98@gmail.com',
-    description='simulation-setup.',
+    description='arena_simulation_setup.',
     license='BSD',
     tests_require=['pytest'],
     entry_points={

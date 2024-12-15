@@ -13,21 +13,22 @@
 # limitations under the License.
 
 
+import os
 from launch import LaunchDescription
 from launch.actions import (GroupAction, IncludeLaunchDescription)
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.substitutions import PathJoinSubstitution
 
-from launch_ros.actions import PushRosNamespace, SetRemap
+from launch_ros.actions import PushRosNamespace, SetRemap, Node
 from launch_ros.substitutions import FindPackageShare
 
 
-from arena_bringup.substitutions import LaunchArgument, YAMLFileSubstitution, YAMLReplaceSubstitution, YAMLMergeSubstitution
+from arena_bringup.substitutions import LaunchArgument, YAMLFileSubstitution, YAMLReplaceSubstitution, YAMLMergeSubstitution, YAMLRetrieveSubstitution
 
 
 def generate_launch_description():
     # Get the launch directory
-    ss_root = FindPackageShare('simulation-setup')
+    ss_root = FindPackageShare('arena_simulation_setup')
     pkg_nav2_bringup = FindPackageShare('nav2_bringup')
 
     # Create the launch configuration variables
@@ -87,14 +88,44 @@ def generate_launch_description():
         substitutions=YAMLFileSubstitution(substitutions)
     )
 
+    robot_base_frame = YAMLRetrieveSubstitution(
+        YAMLFileSubstitution(substitutions),
+        os.path.join('robot_base_frame'),
+    )
+
+    robot_odom_frame = YAMLRetrieveSubstitution(
+        YAMLFileSubstitution(substitutions),
+        os.path.join('robot_odom_frame'),
+    )
+
     remappings = [
-        ('map_server/get_state', '/map_server/get_state')
+        ('map_server', '/map_server'),
     ]
 
     # Specify the actions
     bringup_cmd_group = GroupAction([
         *[SetRemap(src=r[0], dst=r[1]) for r in remappings],
         PushRosNamespace(namespace=namespace.substitution),
+
+        GroupAction([
+            SetRemap(src='/tf_static', dst='/tf'),
+            Node(
+                package="tf2_ros",
+                executable="static_transform_publisher",
+                name="map_to_odomframe_publisher",
+                namespace=namespace.substitution,
+                arguments=["0", "0", "0", "0", "0", "0", "map", [frame.substitution, robot_odom_frame]],
+                parameters=[use_sim_time.parameter],
+            ),
+            Node(
+                package="tf2_ros",
+                executable="static_transform_publisher",
+                name="odomframe_to_baseframe_publisher",
+                namespace=namespace.substitution,
+                arguments=["0", "0", "0", "0", "0", "0", [frame.substitution, robot_odom_frame], [frame.substitution, robot_base_frame]],
+                parameters=[use_sim_time.parameter],
+            ),
+        ]),
 
         # IncludeLaunchDescription(
         #     PythonLaunchDescriptionSource(
@@ -116,6 +147,20 @@ def generate_launch_description():
         #     }.items()
         # ),
 
+        # IncludeLaunchDescription(
+        #     PythonLaunchDescriptionSource(
+        #         PathJoinSubstitution([
+        #             FindPackageShare('arena_bringup'),
+        #             'launch/utils/fake_localization.launch.py'
+        #         ])
+        #     ),
+        #     launch_arguments={
+        #         'global_frame_id': 'map',
+        #         'odom_frame_id': [frame.substitution, 'odom']
+        #     }.items()
+        # ),
+
+
         IncludeLaunchDescription(
             PythonLaunchDescriptionSource(
                 PathJoinSubstitution(
@@ -127,9 +172,9 @@ def generate_launch_description():
                 )
             ),
             launch_arguments={
-                'namespace': namespace.substitution,
+                # 'namespace': namespace.substitution,
                 'use_sim_time': use_sim_time.substitution,
-                'autostart': 'true',
+                'autostart': 'True',
                 'params_file': substituted_parameters,
                 'use_composition': 'False',
             }.items()

@@ -1,9 +1,9 @@
 <?xml version="1.0"?>
 <?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
 <package format="3">
-  <name>simulation-setup</name>
+  <name>arena_simulation_setup</name>
   <version>4.0.0</version>
-  <description>The simulation-setup package</description>
+  <description>The arena_simulation_setup package</description>
   <maintainer email="trannamtruong98@gmail.com">NamTruongTran</maintainer>
   <license>BSD</license>
 
