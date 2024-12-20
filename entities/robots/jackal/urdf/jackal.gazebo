@@ -46,7 +46,6 @@
       <wheel_separation>${track}</wheel_separation>
       <wheel_radius>${wheel_radius}</wheel_radius>
       <odom_publish_frequency>50</odom_publish_frequency>
-      <topic>cmd_vel</topic>
       
       <base_frame_id>base_link</base_frame_id>
       <odom_frame_id>odom</odom_frame_id>
@@ -54,52 +53,6 @@
       <publish_odom>true</publish_odom>
       <publish_odom_tf>true</publish_odom_tf>
       <publish_wheel_tf>true</publish_wheel_tf>
-    </plugin>
-
-    <!-- Keyboard Control Plugins -->
-    <!-- Move Forward -->
-    <plugin filename="gz-sim-triggered-publisher-system"
-            name="gz::sim::systems::TriggeredPublisher">
-      <input type="gz.msgs.Int32" topic="/keyboard/keypress">
-        <match field="data">16777235</match>
-      </input>
-      <output type="gz.msgs.Twist" topic="/cmd_vel">
-          linear: {x: 1.0}, angular: {z: 0.0}
-      </output>
-    </plugin>
-
-
-    <!-- Move Backward -->
-    <plugin filename="gz-sim-triggered-publisher-system"
-            name="gz::sim::systems::TriggeredPublisher">
-      <input type="gz.msgs.Int32" topic="/keyboard/keypress">
-        <match field="data">16777237</match>
-      </input>
-      <output type="gz.msgs.Twist" topic="/cmd_vel">
-          linear: {x: -1.0}, angular: {z: 0.0}
-      </output>
-    </plugin>
-
-    <!-- Rotate Left -->
-    <plugin filename="gz-sim-triggered-publisher-system"
-            name="gz::sim::systems::TriggeredPublisher">
-      <input type="gz.msgs.Int32" topic="/keyboard/keypress">
-        <match field="data">16777234</match>
-      </input>
-      <output type="gz.msgs.Twist" topic="/cmd_vel">
-          linear: {x: 0.0}, angular: {z: 1.0}
-      </output>
-    </plugin>
-
-    <!-- Rotate Right -->
-    <plugin filename="gz-sim-triggered-publisher-system"
-            name="gz::sim::systems::TriggeredPublisher">
-      <input type="gz.msgs.Int32" topic="/keyboard/keypress">
-        <match field="data">16777236</match>
-      </input>
-      <output type="gz.msgs.Twist" topic="/cmd_vel">
-          linear: {x: 0.0}, angular: {z: -1.0}
-      </output>
     </plugin>
   </gazebo>
 
