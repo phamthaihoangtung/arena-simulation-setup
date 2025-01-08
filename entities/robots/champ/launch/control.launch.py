@@ -11,7 +11,8 @@ from launch.actions import (
     ExecuteProcess,
     IncludeLaunchDescription,
     GroupAction,
-    RegisterEventHandler
+    RegisterEventHandler,
+    LogInfo
 )
 from launch.event_handlers.on_process_exit import OnProcessExit
 from launch.event_handlers.on_execution_complete import OnExecutionComplete
@@ -33,8 +34,18 @@ def generate_launch_description():
     gait_config = os.path.join(config_pkg_share, "config/gait/gait.yaml")
     links_config = os.path.join(config_pkg_share, "config/links/links.yaml")
 
-    default_rviz_path = os.path.join(descr_pkg_share, "rviz/urdf_viewer.rviz")
+    # default_rviz_path = os.path.join(descr_pkg_share, "rviz/urdf_viewer.rviz")
     default_model_path = os.path.join(descr_pkg_share, "urdf/champ.urdf.xacro")
+
+    declare_robot_namespace = DeclareLaunchArgument(
+        name='robot_namespace',
+        default_value='champ'
+    )
+    
+    declare_frame = DeclareLaunchArgument(
+        name='frame',
+        default_value="base_link"
+    )
 
     declare_use_sim_time = DeclareLaunchArgument(
         "use_sim_time",
@@ -48,41 +59,41 @@ def generate_launch_description():
         description="Absolute path to robot urdf file",
     )
 
-    declare_rviz_path = DeclareLaunchArgument(
-        name="rviz_path",
-        default_value=default_rviz_path,
-        description="Absolute path to rviz file",
-    )
+    # declare_rviz_path = DeclareLaunchArgument(
+    #     name="rviz_path",
+    #     default_value=default_rviz_path,
+    #     description="Absolute path to rviz file",
+    # )
 
     declare_joints_map_path = DeclareLaunchArgument(
         name="joints_map_path",
-        default_value='',
+        default_value=joints_config,
         description="Absolute path to joints map file",
     )
 
     declare_links_map_path = DeclareLaunchArgument(
         name="links_map_path",
-        default_value='',
+        default_value=links_config,
         description="Absolute path to links map file",
     )
 
     declare_gait_config_path = DeclareLaunchArgument(
         name="gait_config_path",
-        default_value='',
+        default_value=gait_config,
         description="Absolute path to gait config file",
     )
 
-    declare_orientation_from_imu = DeclareLaunchArgument(
-        "orientation_from_imu", default_value="false", description="Take orientation from IMU data"
-    )
+    # declare_orientation_from_imu = DeclareLaunchArgument(
+    #     "orientation_from_imu", default_value="false", description="Take orientation from IMU data"
+    # )
 
-    declare_rviz = DeclareLaunchArgument(
-        "rviz", default_value="false", description="Launch rviz"
-    )
+    # declare_rviz = DeclareLaunchArgument(
+    #     "rviz", default_value="false", description="Launch rviz"
+    # )
 
-    declare_rviz_ref_frame = DeclareLaunchArgument(
-        "rviz_ref_frame", default_value="odom", description="Rviz ref frame"
-    )
+    # declare_rviz_ref_frame = DeclareLaunchArgument(
+    #     "rviz_ref_frame", default_value="odom", description="Rviz ref frame"
+    # )
 
     declare_robot_name = DeclareLaunchArgument(
         "robot_name", default_value="/", description="Robot name"
@@ -168,24 +179,24 @@ def generate_launch_description():
             {"urdf": Command(['xacro ', LaunchConfiguration('description_path')])},
             LaunchConfiguration('joints_map_path'),
             LaunchConfiguration('links_map_path'),
-            LaunchConfiguration('gait_config_path'),
+            LaunchConfiguration('gait_config_path')
         ],
         remappings=[("/cmd_vel/smooth", "/cmd_vel")],
     )
-
-    state_estimator_node = Node(
-        package="champ_base",
-        executable="state_estimation_node",
-        output="screen",
-        parameters=[
-            {"use_sim_time": LaunchConfiguration("use_sim_time")},
-            {"orientation_from_imu": LaunchConfiguration("orientation_from_imu")},
-            {"urdf": Command(['xacro ', LaunchConfiguration('description_path')])},
-            LaunchConfiguration('joints_map_path'),
-            LaunchConfiguration('links_map_path'),
-            LaunchConfiguration('gait_config_path'),
-        ],
-    )
+    
+    # state_estimator_node = Node(
+    #     package="champ_base",
+    #     executable="state_estimation_node",
+    #     output="screen",
+    #     parameters=[
+    #         {"use_sim_time": LaunchConfiguration("use_sim_time")},
+    #         {"orientation_from_imu": LaunchConfiguration("orientation_from_imu")},
+    #         {"urdf": Command(['xacro ', LaunchConfiguration('description_path')])},
+    #         LaunchConfiguration('joints_map_path'),
+    #         LaunchConfiguration('links_map_path'),
+    #         LaunchConfiguration('gait_config_path'),
+    #     ],
+    # )
 
     base_to_footprint_ekf = Node(
         package="robot_localization",
@@ -223,27 +234,26 @@ def generate_launch_description():
         remappings=[("odometry/filtered", "odom")],
     )
 
-    rviz2 = Node(
-        package='rviz2',
-        namespace='',
-        executable='rviz2',
-        name='rviz2',
-        arguments=['-d', LaunchConfiguration("rviz_path")],
-        condition=IfCondition(LaunchConfiguration("rviz"))
-    )
-
-
+    # rviz2 = Node(
+    #     package='rviz2',
+    #     namespace='',
+    #     executable='rviz2',
+    #     name='rviz2',
+    #     arguments=['-d', LaunchConfiguration("rviz_path")],
+    #     condition=IfCondition(LaunchConfiguration("rviz"))
+    # )
+    
     return LaunchDescription(
         [
             declare_use_sim_time,
             declare_description_path,
-            declare_rviz_path,
+            # declare_rviz_path,
             declare_joints_map_path,
             declare_links_map_path,
             declare_gait_config_path,
-            declare_orientation_from_imu,
-            declare_rviz,
-            declare_rviz_ref_frame,
+            # declare_orientation_from_imu,
+            # declare_rviz,
+            # declare_rviz_ref_frame,
             declare_robot_name,
             declare_base_link_frame,
             declare_lite,
@@ -255,11 +265,13 @@ def generate_launch_description():
             declare_publish_foot_contacts,
             declare_publish_odom_tf,
             declare_close_loop_odom,
+            declare_robot_namespace,
+            declare_frame,
             # description_ld,
             quadruped_controller_node,
-            state_estimator_node,
+            # state_estimator_node,
             base_to_footprint_ekf,
             footprint_to_odom_ekf,
-            rviz2
+            # rviz2,
         ]
     )
