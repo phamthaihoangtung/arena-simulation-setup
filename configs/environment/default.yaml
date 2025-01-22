@@ -1,0 +1,18 @@
+groups:
+  - name: "office_space"
+    margin: 1.5
+    size: [2.5, 2.5] # or compute this otf (as area of obstacles plus some padding)
+    entities:
+      - position: [0, 0, 0]
+        model: office_desk
+      - position: [0, -0.5, 0]
+        model: office_chair
+
+  - name: "office_space_2"
+    margin: 1.5
+    size: [2.5, 2.5] # or compute this otf (as area of obstacles plus some padding)
+    entities:
+      - position: [0, 0, 0]
+        model: office_desk
+      - position: [0, -0.5, 0]
+        model: office_chair
