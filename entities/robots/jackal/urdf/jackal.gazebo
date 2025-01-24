@@ -61,13 +61,13 @@
     </plugin>
   </gazebo>
 
-  <!-- LiDAR Sensor Plugin -->
   <gazebo reference="lidar_link">
     <sensor name="gpu_lidar" type="gpu_lidar">
-      <pose>0 0 0 0 0 0</pose>
-      <topic>scan</topic>
+      <always_on>1</always_on>
       <update_rate>10</update_rate>
       <visualize>true</visualize>
+      <pose>0 0 0 0 0 0</pose>
+      <topic>lidar</topic>  <!-- Gazebo's native topic -->
       <ray>
         <scan>
           <horizontal>
@@ -89,9 +89,16 @@
           <resolution>0.01</resolution>
         </range>
       </ray>
-      <plugin filename="libgazebo_ros_gpu_lidar.so" name="GazeboRosGpuLaser">
-        <gaussianNoise>0.01</gaussianNoise>
-        <topicName>/scan</topicName>
+      <plugin
+        filename="libros_gz_lidar.so"
+        name="ros_gz_lidar">
+        <ros>
+          <namespace>/</namespace>
+          <!-- Remap the default `~/scan` to `/lidar` if you prefer -->
+          <remapping>~/scan:=/lidar</remapping>
+        </ros>
+        <!-- The topicName must match the Gazebo sensor's topic above, or a new name -->
+        <topicName>/lidar</topicName>
         <frameName>lidar_link</frameName>
       </plugin>
     </sensor>
