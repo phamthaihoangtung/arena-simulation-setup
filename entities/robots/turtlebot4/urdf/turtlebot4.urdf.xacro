@@ -124,12 +124,4 @@
     <origin xyz="${oakd_pro_x_offset} ${oakd_pro_y_offset} ${oakd_pro_z_offset}"/>
   </xacro:oakd>
 
-  <!-- Base footprint for navigation -->
-  <link name="base_footprint" />
-  <joint name="base_footprint_joint" type="fixed">
-    <!-- Create3's base_link is already on the ground -->
-    <origin xyz="0 0 0" rpy="0 0 0" />
-    <parent link="base_link" />
-    <child link="base_footprint" />
-  </joint>
 </robot>
