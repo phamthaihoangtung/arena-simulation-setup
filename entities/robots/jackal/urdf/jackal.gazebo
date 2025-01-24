@@ -89,18 +89,6 @@
           <resolution>0.01</resolution>
         </range>
       </ray>
-      <plugin
-        filename="libros_gz_lidar.so"
-        name="ros_gz_lidar">
-        <ros>
-          <namespace>/</namespace>
-          <!-- Remap the default `~/scan` to `/lidar` if you prefer -->
-          <remapping>~/scan:=/lidar</remapping>
-        </ros>
-        <!-- The topicName must match the Gazebo sensor's topic above, or a new name -->
-        <topicName>/lidar</topicName>
-        <frameName>lidar_link</frameName>
-      </plugin>
     </sensor>
   </gazebo>
 
