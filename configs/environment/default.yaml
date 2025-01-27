@@ -4,7 +4,7 @@ groups:
     size: [2.5, 2.5] # or compute this otf (as area of obstacles plus some padding)
     entities:
       static:
-        - position: [0, 0, 0]
+        - position: [0.0, 0.0, 0.0]
           model: office_desk
         - position: [0, -0.5, 0]
           model: office_chair
@@ -15,9 +15,9 @@ groups:
     size: [2.5, 2.5] # or compute this otf (as area of obstacles plus some padding)
     entities:
       static:
-        - position: [0, 0, 0]
+        - position: [0.0, 0.0, 0.0]
           model: office_desk
-        - position: [0, -0.5, 0]
+        - position: [0.0, -0.5, 0.0]
           model: office_chair
       dynamic:
 
