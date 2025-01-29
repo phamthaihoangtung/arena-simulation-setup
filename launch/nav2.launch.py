@@ -1,18 +1,3 @@
-# Copyright 2022 Clearpath Robotics, Inc.
-#
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#     http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
-
-
 import os
 from launch import LaunchDescription
 from launch.actions import (GroupAction, IncludeLaunchDescription)
@@ -22,22 +7,15 @@ from launch.substitutions import PathJoinSubstitution
 from launch_ros.actions import PushRosNamespace, SetRemap, Node
 from launch_ros.substitutions import FindPackageShare
 
-
 from arena_bringup.substitutions import LaunchArgument, YAMLFileSubstitution, YAMLReplaceSubstitution, YAMLMergeSubstitution, YAMLRetrieveSubstitution
 
-
 def generate_launch_description():
-    # Get the launch directory
     ss_root = FindPackageShare('arena_simulation_setup')
     pkg_nav2_bringup = FindPackageShare('nav2_bringup')
-
-    # Create the launch configuration variables
     robot = LaunchArgument('robot')
     namespace = LaunchArgument('namespace')
     frame = LaunchArgument('frame')
     use_sim_time = LaunchArgument('use_sim_time')
-
-    robot = LaunchArgument('robot')
     global_planner = LaunchArgument('global_planner')
     local_planner = LaunchArgument('local_planner')
 
@@ -102,11 +80,11 @@ def generate_launch_description():
         ('map_server', '/map_server'),
     ]
 
-    # Specify the actions
     bringup_cmd_group = GroupAction([
         *[SetRemap(src=r[0], dst=r[1]) for r in remappings],
         PushRosNamespace(namespace=namespace.substitution),
 
+        # TF publishers
         GroupAction([
             SetRemap(src='/tf_static', dst='/tf'),
             Node(
@@ -127,40 +105,46 @@ def generate_launch_description():
             ),
         ]),
 
-        # IncludeLaunchDescription(
-        #     PythonLaunchDescriptionSource(
-        #         PathJoinSubstitution(
-        #             [
-        #                 pkg_nav2_bringup,
-        #                 'launch',
-        #                 'localization_launch.py'
-        #             ]
-        #         )
-        #     ),
-        #     launch_arguments={
-        #         'namespace': namespace.substitution,
-        #         'use_namespace': 'True',
-        #         'use_sim_time': use_sim_time.substitution,
-        #         'autostart': 'true',
-        #         'params_file': substituted_parameters,
-        #         'use_composition': 'False',
-        #     }.items()
-        # ),
+        # Localization Launch
+        IncludeLaunchDescription(
+            PythonLaunchDescriptionSource(
+                PathJoinSubstitution(
+                    [
+                        pkg_nav2_bringup,
+                        'launch',
+                        'localization_launch.py'
+                    ]
+                )
+            ),
+            launch_arguments={
+                'namespace': namespace.substitution,
+                'use_namespace': 'True',
+                'use_sim_time': use_sim_time.substitution,
+                'autostart': 'true',
+                'params_file': substituted_parameters,
+                'use_composition': 'False',
+            }.items()
+        ),
 
-        # IncludeLaunchDescription(
-        #     PythonLaunchDescriptionSource(
-        #         PathJoinSubstitution([
-        #             FindPackageShare('arena_bringup'),
-        #             'launch/utils/fake_localization.launch.py'
-        #         ])
-        #     ),
-        #     launch_arguments={
-        #         'global_frame_id': 'map',
-        #         'odom_frame_id': [frame.substitution, 'odom']
-        #     }.items()
-        # ),
+        # AMCL Node
+        Node(
+            package='nav2_amcl',
+            executable='amcl',
+            name='amcl',
+            namespace=namespace.substitution,
+            parameters=[
+                substituted_parameters,
+                {'use_sim_time': use_sim_time.substitution}
+            ],
+            remappings=[
+                ('scan', 'scan'),
+                ('map', '/map'),
+                ('map_metadata', '/map_metadata'),
+                ('initialpose', 'initialpose')
+            ]
+        ),
 
-
+        # Navigation Stack
         IncludeLaunchDescription(
             PythonLaunchDescriptionSource(
                 PathJoinSubstitution(
@@ -172,7 +156,6 @@ def generate_launch_description():
                 )
             ),
             launch_arguments={
-                # 'namespace': namespace.substitution,
                 'use_sim_time': use_sim_time.substitution,
                 'autostart': 'True',
                 'params_file': substituted_parameters,
