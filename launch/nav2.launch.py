@@ -123,6 +123,26 @@ def generate_launch_description():
             ]
         ),
 
+        # Planner Server Node
+        Node(
+            package='nav2_planner',
+            executable='planner_server',
+            name='planner_server',
+            namespace=namespace.substitution,
+            output='screen',
+            parameters=[
+                substituted_parameters,
+                {
+                    'use_sim_time': use_sim_time.substitution,
+                    'planner_plugins': ['GridBased'],
+                    'GridBased.plugin': 'nav2_navfn_planner/NavfnPlanner',
+                    'GridBased.tolerance': 2.0,
+                    'GridBased.use_astar': True,
+                    'GridBased.allow_unknown': True
+                }
+            ]
+        ),
+
         # Navigation Stack
         IncludeLaunchDescription(
             PythonLaunchDescriptionSource(
@@ -142,16 +162,16 @@ def generate_launch_description():
             }.items()
         ),
 
-        # Lifecycle Manager for AMCL only
+        # Lifecycle Manager for AMCL and Planner
         Node(
             package='nav2_lifecycle_manager',
             executable='lifecycle_manager',
-            name='lifecycle_manager_amcl',
+            name='lifecycle_manager_navigation',
             output='screen',
             parameters=[
                 {'use_sim_time': use_sim_time.substitution},
                 {'autostart': True},
-                {'node_names': ['amcl']},
+                {'node_names': ['amcl', 'planner_server']},
                 {'bond_timeout': 4.0},
                 {'attempt_respawn_reconnection': True}
             ]
