@@ -105,27 +105,6 @@ def generate_launch_description():
             ),
         ]),
 
-        # Localization Launch
-        IncludeLaunchDescription(
-            PythonLaunchDescriptionSource(
-                PathJoinSubstitution(
-                    [
-                        pkg_nav2_bringup,
-                        'launch',
-                        'localization_launch.py'
-                    ]
-                )
-            ),
-            launch_arguments={
-                'namespace': namespace.substitution,
-                'use_namespace': 'True',
-                'use_sim_time': use_sim_time.substitution,
-                'autostart': 'true',
-                'params_file': substituted_parameters,
-                'use_composition': 'False',
-            }.items()
-        ),
-
         # AMCL Node
         Node(
             package='nav2_amcl',
@@ -161,6 +140,21 @@ def generate_launch_description():
                 'params_file': substituted_parameters,
                 'use_composition': 'False',
             }.items()
+        ),
+
+        # Lifecycle Manager for AMCL only
+        Node(
+            package='nav2_lifecycle_manager',
+            executable='lifecycle_manager',
+            name='lifecycle_manager_amcl',
+            output='screen',
+            parameters=[
+                {'use_sim_time': use_sim_time.substitution},
+                {'autostart': True},
+                {'node_names': ['amcl']},
+                {'bond_timeout': 4.0},
+                {'attempt_respawn_reconnection': True}
+            ]
         ),
     ])
 
