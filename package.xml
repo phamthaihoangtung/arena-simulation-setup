@@ -14,6 +14,8 @@
   <test_depend>ament_lint_common</test_depend>
 
   <exec_depend>arena_bringup</exec_depend>
+  
+  <depend>turtlebot4_description</depend>
 
   <!-- Metadata about how the package should be exported to other packages -->
   <export>
