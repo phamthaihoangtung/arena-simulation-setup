@@ -19,6 +19,39 @@
             </geometry>
             <material name="black" />
         </visual>
+
+        <inertial>
+            <mass value="1.0"/>
+            <origin xyz="0 0 0"/>
+            <inertia ixx="0.01" ixy="0" ixz="0" iyy="0.01" iyz="0" izz="0.01"/>
+        </inertial>
+
+        <!-- <gazebo>
+            <sensor name="ground_truth_odom" type="pose">
+                <pose>0 0 0 0 0 0</pose>
+                <always_on>true</always_on>
+                <update_rate>10.0</update_rate>
+                <plugin name="ros_pose_publisher" filename="ignition-gazebo-pose-publisher-system">
+                    <ros>
+                        <namespace>/odom</namespace>
+                        <remapping>~/out:=odom/ground_truth</remapping>
+                    </ros>
+                </plugin>
+                <position_sensing>
+                    <noise type="gaussian">
+                        <mean>0.0</mean>
+                        <stddev>0.01</stddev>
+                    </noise>
+                </position_sensing>
+                <orientation_sensing>
+                    <noise type="gaussian">
+                        <mean>0.0</mean>
+                        <stddev>0.01</stddev>
+                    </noise>
+                </orientation_sensing>
+            </sensor>
+        </gazebo> -->
+
     </link>
     <link name="base_inertia">    
         <inertial>
@@ -60,7 +93,7 @@
     <xacro:champ_leg leg="rf"/>
     <xacro:champ_leg leg="rh"/>
     
-    <gazebo>
+    <!-- <gazebo>
       <plugin name="p3d_base_controller" filename="libgazebo_ros_p3d.so">
         <ros>
             <argument>odom:=odom/ground_truth</argument>
@@ -73,11 +106,17 @@
         <rpy_offset>0 0 0</rpy_offset>
         <gaussian_noise>0.01</gaussian_noise>
     </plugin>
-    </gazebo>
+    </gazebo> -->
 
-    <gazebo>
+    <!-- <gazebo>
         <plugin filename="libgazebo_ros2_control.so" name="gazebo_ros2_control">
         <parameters>$(find champ_gazebo)/config/ros_control.yaml</parameters>
-      </plugin>
+    </plugin>
+    </gazebo> -->
+
+    <gazebo>
+        <plugin filename="ign_ros2_control-system" name="ign_ros2_control::IgnitionROS2ControlPlugin">
+            <parameters>$(find champ_gazebo)/config/ros_control.yaml</parameters>
+        </plugin>
     </gazebo>
 </robot>
