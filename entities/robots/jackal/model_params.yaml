@@ -40,4 +40,4 @@ laser:
 robot_base_frame: 'base_link'
 robot_model: jackal
 robot_radius: 0.267
-robot_sensor_frame: front_laser
+robot_sensor_frame: lidar

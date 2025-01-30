@@ -12,6 +12,7 @@ setup(
         where='.',
         include=[f'{package_name}*']
     ),
+    package_dir={'': '.'},
     data_files=[
         ('share/ament_index/resource_index/packages',
          ['resource/' + package_name]),
@@ -28,15 +29,22 @@ setup(
             for file in files
         ]
     ],
-    install_requires=['setuptools'],
+    install_requires=[
+        'setuptools',
+        'requests',
+    ],
     zip_safe=True,
     maintainer='NamTruongTran',
     maintainer_email='trannamtruong98@gmail.com',
     description='arena_simulation_setup.',
     license='BSD',
     tests_require=['pytest'],
+    scripts=[
+        'scripts/generate_world'
+    ],
     entry_points={
         'console_scripts': [
+            'generate_world = arena_simulation_setup.generate_world:main',
         ],
     },
 )

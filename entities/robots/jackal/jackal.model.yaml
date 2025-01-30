@@ -50,7 +50,7 @@ plugins:
   - 0.0
   - 0.0
   range: 30.0
-  topic: scan
+  topic: lidar
   type: Laser
   update_rate: 10
 - name: tf_publisher

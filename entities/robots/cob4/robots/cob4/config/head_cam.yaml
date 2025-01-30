@@ -1,5 +1,0 @@
-framerate: 3.5
-image_height: 1536
-image_width: 2048
-pixel_format: yuyv
-video_device: /dev/video0
