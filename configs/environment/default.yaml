@@ -1,23 +1,59 @@
 groups:
-  - name: "office_space"
-    margin: 1.5
-    size: [2.5, 2.5] # or compute this otf (as area of obstacles plus some padding)
+  - name: "office"
+    margin: 3
+    size: [1.5, 1.5] # or compute this otf (as area of obstacles plus some padding)
+    rotations: [0, 180]
     entities:
       static:
         - position: [0.0, 0.0, 0.0]
           model: office_desk
-        - position: [0, -0.5, 0]
+        - position: [1, 0, -90]
           model: office_chair
-      dynamic:
 
-  - name: "office_space_2"
-    margin: 1.5
-    size: [2.5, 2.5] # or compute this otf (as area of obstacles plus some padding)
+  # - name: "study"
+  #   rotations: [0, 90, 180, 270]
+  #   margin: 3
+  #   size: [2, 2] # or compute this otf (as area of obstacles plus some padding)
+  #   entities:
+  #     static:
+  #       - position: [0.0, 0.0, 0.0]
+  #         model: bookshelf
+  #       - position: [1.0, 1.0, 0.0]
+  #         model: cabinet
+
+  # - name: "industrial"
+  #   rotations: [0, 90, 180, 270]
+  #   margin: 1
+  #   size: [2, 2] # or compute this otf (as area of obstacles plus some padding)
+  #   entities:
+  #     static:
+  #       # - position: [0.0, 0.0, 0.0]
+  #       #   model: conveyor_belt_ariac
+  #       # - position: [-1.0, 1.0, 0.0]
+  #       #   model: crate
+  #       - position: [1.0, 1.0, 0.0]
+  #         model: large_pallet1
+
+  - name: "circle"
+    margin: 1
+    rotations: [0, 15, 30, 45, 60, 75]
+    size: [3, 3] # or compute this otf (as area of obstacles plus some padding)
     entities:
       static:
-        - position: [0.0, 0.0, 0.0]
-          model: office_desk
-        - position: [0.0, -0.5, 0.0]
-          model: office_chair
-      dynamic:
-
+        - position: [0, -1, 0]
+          model: chair
+        - position: [0.707, -0.707, 45]
+          model: chair
+        - position: [1, 0, 90]
+          model: chair
+        - position: [0.707, 0.707, 135]
+          model: chair
+        - position: [0, 1, 180]
+          model: chair
+        - position: [-0.707, 0.707, 225]
+          model: chair
+        - position: [-1, 0, 270]
+          model: chair
+        - position: [-0.707, -0.707, 315]
+          model: chair
+          
